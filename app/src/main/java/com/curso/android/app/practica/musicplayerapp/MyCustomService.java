@@ -15,14 +15,22 @@ public class MyCustomService extends Service {
     private MediaPlayer player;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
+    public void onCreate() {
+        super.onCreate();
         player = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
 
-        if (player != null){
+    }
 
-            player.setLooping(true);
-            player.start();
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+        if (player != null){
+            if (player.isPlaying()){
+            } else {
+                player.setLooping(true);
+                player.start();
+            }
         } else {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
